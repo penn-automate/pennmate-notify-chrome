@@ -1,0 +1,48 @@
+body {
+    width: 20rem;
+    height: 30rem;
+}
+
+button.btn-main {
+    position: absolute;
+    padding: 0 !important;
+    right: 5vw;
+    bottom: 5vw;
+    box-shadow: 0 2vw 2vw rgba(0, 0, 0, .2);
+}
+
+button.btn-main:hover {
+    box-shadow: 0 2vw 3vw rgba(0, 0, 0, .4);
+}
+
+div.button-wrapper {
+    width: 15vw;
+    height: 15vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form.invalid div.invalid-input {
+    display: inherit;
+}
+
+form.invalid label {
+    color: red;
+}
+
+form div.invalid-input {
+    display: none;
+    color: red;
+    font-size: 80%;
+}
+
+main.container-fluid {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+ul.list-group li.course {
+    font-size: 1.2em;
+    padding: 0.5em 0;
+}
