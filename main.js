@@ -33,7 +33,7 @@
         $('#noc_placeholder').hide();
         const c_list = $('#c_list');
         c_list.show();
-        const course_human = course.replace(' ', '');
+        const course_human = course.replace(/\s/g, '');
         let html = $('<li class="list-group-item course"><div class="row">' +
             '<div class="col-5 text-nowrap">' + course_human + '</div>' +
             '<div class="col-5 text-info abs-center text-nowrap"></div>' +

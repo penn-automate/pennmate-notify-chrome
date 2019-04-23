@@ -65,7 +65,6 @@ span.twitter-typeahead {
 }
 
 div.list-group {
-    font-size: 100%;
     width: 100%;
     max-height: calc(35rem / 2 - 2em);
     overflow-y: auto;

@@ -1,6 +1,6 @@
 {
   "name": "Pennmate Notify",
-  "version": "0.2",
+  "version": "0.2.1",
   "description": "For students at UPenn to be notified when a course is open.",
   "icons": {
     "512": "icon.png"
