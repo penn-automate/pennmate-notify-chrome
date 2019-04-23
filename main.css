@@ -1,6 +1,6 @@
 body {
-    width: 20rem;
-    height: 30rem;
+    width: 25rem;
+    height: 35rem;
 }
 
 button.btn-main {
@@ -15,12 +15,16 @@ button.btn-main:hover {
     box-shadow: 0 2vw 3vw rgba(0, 0, 0, .4);
 }
 
-div.button-wrapper {
-    width: 15vw;
-    height: 15vw;
+.abs-center {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+div.button-wrapper {
+    width: 12vw;
+    height: 12vw;
 }
 
 form.invalid div.invalid-input {
@@ -43,6 +47,26 @@ main.container-fluid {
 }
 
 ul.list-group li.course {
-    font-size: 1.2em;
+    font-size: 1.5rem;
     padding: 0.5em 0;
+}
+
+li.course div.text-info {
+    line-height: 1.1;
+    font-size: 0.9rem;
+}
+
+button.btn-block {
+    height: 100%;
+}
+
+span.twitter-typeahead {
+    width: 100%;
+}
+
+div.list-group {
+    font-size: 100%;
+    width: 100%;
+    max-height: calc(35rem / 2 - 2em);
+    overflow-y: auto;
 }
