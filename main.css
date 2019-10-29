@@ -1,6 +1,7 @@
 body {
     width: 25rem;
     height: 35rem;
+    max-height: calc(600px - 3.5rem);
 }
 
 button.btn-main {
