@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    const regex = /^([a-zA-Z]{2,4})\s*-?((?!000)\d{3}|(?!00)\d{2})-?(?!000)(\d{3})$/;
+    const regex = /^([a-zA-Z]{2,4})\s*-?((?:(?!0000)\d{4}|(?!000)\d{3}|(?!00)\d{2})[abAB]?)-?([a-zA-Z0-9]{3})$/;
     let courses;
     $.get('https://pennmate.com/courses.php', data => courses = data);
 
@@ -33,21 +33,22 @@
         $('#noc_placeholder').hide();
         const c_list = $('#c_list');
         c_list.show();
-        const course_human = course.replace(/\s/g, '');
-        let html = $('<li class="list-group-item course"><div class="row">' +
+        const match = regex.exec(course);
+        const course_human = `${match[1]}-${match[2]}-${match[3]}`;
+        let tpl = $('<li class="list-group-item course"><div class="row">' +
             '<div class="col-5 text-nowrap">' + course_human + '</div>' +
             '<div class="col-5 text-info abs-center text-nowrap"></div>' +
             '<div class="col-2"><button type="button" class="btn btn-danger btn-sm btn-block" title="Delete">' +
             '<i class="fa fa-trash-alt fa-sm"></i></button></div>' +
             '</div></li>');
-        html.find('button').click(() => {
+        tpl.find('button').click(() => {
             let modal = $('<div class="modal fade" tabindex="-1" role="alertdialog">' +
                 '<div class="modal-dialog modal-dialog-centered" role="document">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
                 '<h5 class="modal-title">Confirm Deletion</h5>' +
                 '</div>' +
-                '<div class="modal-body">Do you really want to delete course ' +
+                '<div class="modal-body">Do you really want to remove course ' +
                 '<span class="text-nowrap">' + course_human + '</span>?' +
                 '</div>' +
                 '<div class="modal-footer">' +
@@ -59,23 +60,23 @@
                 '</div>');
             modal.find('button.btn-warning').click(() => {
                 modal.modal('hide');
-                html.remove();
+                tpl.remove();
                 delete_course(course);
             });
             modal.on('hidden.bs.modal', () => modal.remove());
             modal.modal('show');
         });
-        $.get('https://pennmate.com/last_opened.php', {course: course}, (data) => {
+        $.get('https://pennmate.com/last_opened.php', {course}, (data) => {
             if (data === '-1') {
-                html.find('div.text-info').html('Course now opens.');
+                tpl.find('div.text-info').html('Course now opens.');
             } else if (data) {
                 const date = new Date(data * 1000);
                 const options = {month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
-                html.find('div.text-info').html('Last opened:<br>' +
+                tpl.find('div.text-info').html('Last opened:<br>' +
                     date.toLocaleDateString('en-US', options));
             }
         });
-        c_list.append(html);
+        c_list.append(tpl);
     }
 
     function subscribe_topics(courses) {
@@ -96,13 +97,13 @@
         const course_input = $('input#course');
         const dialog = $('#dialog');
         $('form#course_add').submit(() => {
-            const match = check_validity(course_input.val());
+            const match = check_validity(course_input.val().trim().toUpperCase());
             if (match) {
                 dialog.modal('hide');
-                const category = match[1].trim().toUpperCase();
-                const course = match[2].padStart(3, '0');
+                const category = match[1];
+                const course = match[2].padStart(4, '0');
                 const section = match[3];
-                const course_id = category.padEnd(4, ' ') + '-' + course + '-' + section;
+                const course_id = category + course + section;
                 chrome.storage.sync.get('course_list', function (item) {
                     let list = item['course_list'];
                     if (!Array.isArray(list)) {
@@ -144,7 +145,7 @@
                     }
                 }
             });
-        course_input.change(() => {
+        course_input.bind('typeahead:close', () => {
             const value = course_input.val();
             if (value === '') {
                 $('form#course_add').removeClass('invalid');
